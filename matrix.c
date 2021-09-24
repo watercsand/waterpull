@@ -4,6 +4,30 @@
 #include <malloc.h>
 #include <assert.h>
 
+/*--------------------------------------------------------------------
+Author: watercsand
+git:	waterpull
+email: 1337259688@qq.com
+area:	China
+
+this file only upload on the github
+only for learning
+if you see this file on any other website
+!!!!!that all without permisson!!!!!
+!!!!!   prohibit commercial    !!!!!
+Any illegal act will be investigated
+if you find any of this illegal activity
+please send me an email (although I only check email occasionally)
+thank you
+
+in addition
+I copied some of this stuff from the internet
+especially the comments section
+If you find out that I have infringed
+Please contact with me
+I'll delete it
+--------------------------------------------------------------------*/
+
 //将矩阵全部元素置为0
 //第一个参数是矩阵的地址，第二个参数是矩阵的行数
 //第三个参数是矩阵的列数
