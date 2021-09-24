@@ -306,7 +306,6 @@ int rank_matrix(float* matrix, int row, int column)
 	int up_line = 0;
 	float magnification = 0;
 	int move = 0;
-
 	float up_line_num = 0;
 	float move_num = 0;
 	for (i = 0; i < column; i++)
@@ -336,23 +335,11 @@ int rank_matrix(float* matrix, int row, int column)
 	return column;
 }
 
-/*
-
-
-
-*/
-
 //求解矩阵是否为满秩矩阵，如果是返回1，如果不是返回-1
 int full_rank_matrix(float* matrix, int row, int column)
 {
-	
-
-
-
-	
+	return 0;
 }
-
-
 
 /*
 矩阵可逆的充分必要条件：AB=E；A为满秩矩阵（即r (A)=n）；
@@ -371,7 +358,9 @@ void reverse_matrix(float* matrix, int row, int column)
 	 前2行就满足条件
 	 前3行就不满足条件
 */
+//使用的前提是矩阵为方阵
 //第一个参数是矩阵的地址，第二个参数是到第几行
+//第三个参数是矩阵有多少行
 int is_zero_matrix(float* matrix, int x, int row)
 {
 	int column = row;
@@ -401,7 +390,7 @@ int is_zero_matrix(float* matrix, int x, int row)
 
 //转为上三角行列式
 //第一个参数是保存结果的矩阵，第二个参数是输入的矩阵
-//第三个参数是矩阵的行数，第四个矩阵是矩阵的列数
+//第三个参数是矩阵的行数，第四个参数是矩阵的列数
 int upper_triangle_matrix(float* matrix1, int row)
 {
 	int i = 0;
@@ -430,7 +419,7 @@ int upper_triangle_matrix(float* matrix1, int row)
 				for (k = 0; k < row - i - 1; k++)
 				{
 					//printf("k=%d\n", k);
-					exchange_matrix_row(matrix1, j + k - 1, j + k, row, column);
+					exchange_matrix_row(matrix1, j + k - 1, j + k, column);
 				}
 				flag++;
 				//printf("%d\n", flag);
