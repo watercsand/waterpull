@@ -404,51 +404,47 @@ int is_zero_matrix(float* matrix, int x, int row)
 //第三个参数是矩阵的行数，第四个矩阵是矩阵的列数
 int upper_triangle_matrix(float* matrix1, int row)
 {
-	int column = row;
 	int i = 0;
 	int j = 0;
-	int k = 0;
-	int move_in = 0;
-	int move_up = 0;
-	int move = 0;
-	float up_line = 0;
+	int column = row;
+	int move_up_line = 0;
+	int move_each_line = 0;
+	float move_up = 0;
 	float each_line = 0;
-	float magnification = 0;
+	int k = 0;
 	int flag = 0;
+	float mag = 0;//倍率
 	for (i = 0; i < column - 1; i++)
 	{
-		move_up = i * column + i;
-		for (j = i+1; j < row; j++)
+		for (j = i + 1; j < row; j++)
 		{
+			move_up_line = i * column + i;
+			move_each_line = j * column + i;
+			move_up = *(matrix1 + move_up_line);
+			each_line = *(matrix1 + move_each_line);
+			//printf("move_up=%f each_line=%f\n", move_up, each_line);
+			//printf("up_line=%d each_line=%d\n", move_up_line, move_each_line);
 			flag = 0;
-			move = j * column + i;
-			//printf("%d %d %d %d \n", i, j, move_up, move);
-			up_line = *(matrix1 + move_up);
-			each_line = *(matrix1 + move);
-			while (up_line == 0)
+			while (move_up == 0)
 			{
-				for (k = 0; k < row - j; k++)
+				for (k = 0; k < row - i - 1; k++)
 				{
-					//printf("%d %d\n", j, k);
-					exchange_matrix_row(matrix1, j + k - 1, j + k, column);
-					//print_matrix_arr(matrix1, row, column);
-					//printf("%d\n", k);
+					//printf("k=%d\n", k);
+					exchange_matrix_row(matrix1, j + k - 1, j + k, row, column);
 				}
-				up_line = *(matrix1 + move);
-				//printf("交换一次\n");
 				flag++;
-				if (flag > row - j)
+				//printf("%d\n", flag);
+				if (flag > row - i - 1)
 				{
 					init_matrix_zero(matrix1, row, column);
 					return -1;
 				}
-
+				move_up = *(matrix1 + move_up_line);
+				each_line = *(matrix1 + move_each_line);
 			}
-			//printf("%f\n", -(each_line / up_line));
-			magnification = -(each_line / up_line);
-			//printf("%f\n", magnification);
-			self_add_matrix_row(matrix1, magnification, i, j, column);
-			//print_matrix_arr(matrix1, row, column);
+			mag = each_line / move_up;
+			mag = -mag;
+			self_add_matrix_row(matrix1, mag, i, j, column);
 		}
 	}
 	return 1;
@@ -468,6 +464,7 @@ float sum_upper_triangle_matrix(float* matrix, int row)
 	flag = upper_triangle_matrix(matrix, row);
 	if (flag < 0)
 	{
+		printf("upper_triangle_matrix fail\n");
 		return (float)0xffffffff;
 	}
 	//print_matrix_arr(matrix, row, column);
@@ -504,6 +501,7 @@ float algebra_remain_formula(const float* matrix, int x, int y, int row)
 	assign2 = realloc(assign, sizeof(float) * (row - 1) * (column - 1));
 	if (assign2 == NULL)
 	{
+		printf("assigns fail\n");
 		return (float)0xffffffff;
 	}
 	else
@@ -535,13 +533,15 @@ float algebra_remain_formula(const float* matrix, int x, int y, int row)
 		matrix_copy2 = NULL;
 		assigned_matrix_arr(matrix_copy, assign, row - 1, column - 1);
 	}
-	upper_triangle_matrix(matrix_copy, row - 1);
+	//upper_triangle_matrix(matrix_copy, row - 1);
 	result = sum_upper_triangle_matrix(matrix_copy, row - 1);
+	//printf("%f\n", result);
 	//printf("%f\n", result);
 	free(matrix_copy);
 	matrix_copy = NULL;
 	free(assign);
 	assign = NULL;
+	//printf("eenndd\n");
 	return result;
 }
 
@@ -558,11 +558,14 @@ float remain_formula(float* matrix, int x, int y, int row)
 	}
 
 	result = algebra_remain_formula(matrix, x, y, row);
+	//printf("%f\n", result);
 	if (result == (int)0xffffff)
 	{
+		printf("result fail\n");
 		return (float)0xffffffff;
 	}
 	result = flag * result;
+	//printf("end\n");
 	return result;
 }
 
@@ -576,8 +579,10 @@ void print_float(float* arr, int len)
 		printf("%f\n", *(arr + i));
 	}
 }
+
 //伴随矩阵
 //第一个参数是矩阵的地址，第二个参数是矩阵的行（列）
+//返回一个结果的矩阵，记得接收，用完释放，小心内存泄漏
 float* chaperonage_matrix(float* matrix, int row)
 {
 	int column = row;
@@ -699,6 +704,10 @@ float* chaperonage_matrix(float* matrix, int row)
 }
 
 //对矩阵进行相除
+//第一个参数是被除数矩阵的地址，第二个参数是矩阵除数的地址
+//第三个参数是被除数矩阵的行，
+//第四个参数是被除数矩阵的列（除数矩阵的行和列与被除数矩阵的列相同）
+//返回一个结果的矩阵，记得接收，用完释放，小心内存泄漏
 float* division_matrix(float* matrix1, float* matrix2, int row1, int column1)
 {
 	float* inverse = NULL;
@@ -708,11 +717,13 @@ float* division_matrix(float* matrix1, float* matrix2, int row1, int column1)
 	int column2 = column1;
 	float* assign = NULL;
 	float* assign2 = NULL;
+	float* result1 = NULL;
+	float* result2 = NULL;
+	float* result3 = NULL;
+	float* result4 = NULL;
 	float proportion = 0;
 	int i = 0;
 	int j = 0;
-	printf("aaa:\n");
-	print_matrix_arr(matrix2, row2, column2);
 	inverse2 = init_matrix(inverse, row2, column2);
 	if (inverse2 == NULL)
 	{
@@ -728,6 +739,7 @@ float* division_matrix(float* matrix1, float* matrix2, int row1, int column1)
 	{
 		free(inverse);
 		inverse = NULL;
+		return NULL;
 	}
 	else
 	{
@@ -742,14 +754,50 @@ float* division_matrix(float* matrix1, float* matrix2, int row1, int column1)
 			*(assign + move_assign) = *(matrix2 + move_assign);
 		}
 	}
+	assigned_matrix_arr(inverse, assign, row2, column2);
 	//free()
-	printf("inverse\n");
-	print_matrix_arr(inverse, row2, column2);
-	proportion = sum_upper_triangle_matrix(matrix2, row2);
-	print_matrix_arr(matrix2, row2, column2);
-
-
-
+	proportion = sum_upper_triangle_matrix(inverse, row2);
+	assigned_matrix_arr(inverse, assign, row2, column2);
+	result2 = chaperonage_matrix(inverse, row2);
+	assigned_matrix_arr(inverse, assign, row2, column2);
+	if (result2 == NULL)
+	{
+		free(assign);
+		assign = NULL;
+		return NULL;
+	}
+	else
+	{
+		result1 = result2;
+		result2 = NULL;
+	}
+	multiply_matrix_number(result1, 1 / proportion, row2, column2);
+	//init_matrix_zero(inverse, row2, column2);
+	result4 = init_matrix(result3, row1, column2);
+	if (result4 == NULL)
+	{
+		printf("结果矩阵开辟失败\n");
+		free(assign);
+		assign = NULL;
+		free(inverse);
+		inverse = NULL;
+		free(result1);
+		result1 = NULL;
+		return NULL;
+	}
+	else
+	{
+		result3 = result4;
+		result4 = NULL;
+	}
+	multiply_matrix(result3, matrix1, result1, row1, column1, row2);
+	free(assign);
+	assign = NULL;
+	free(inverse);
+	inverse = NULL;
+	free(result1);
+	result1 = NULL;
+	return result3;
 }
 
 
