@@ -8,7 +8,7 @@ area:	China
 this file only upload on the github
 only for learning
 if you see this file on any other website
-!!!!!that all without permisson!!!!!
+!!!!!that all without permitted!!!!!
 !!!!!   prohibit commercial    !!!!!
 Any illegal act will be investigated
 if you find any of this illegal activity
@@ -162,6 +162,7 @@ def del_same(list_input):
     return list_change
 
 
+# 化简函数主体，输入一个最小项的列表和元素的个数
 def qu(list_input, var):
     list_un_merge = []
     # list_input = [0, 1, 2, 5, 6, 7, 8, 9, 10, 14]
