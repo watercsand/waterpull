@@ -18,9 +18,10 @@ void exchange_matrix_row(float* matrix, int row_assign1, int row_assign2, int co
 int rank_matrix(float* matrix, int row, int column);
 
 int is_zero_matrix(float* matrix, int x, int row);//判断矩阵(上三角)的前几行下部分是否为0
-void upper_triangle_matrix(float* matrix1, int row, int column);//转为上三角行列式
-float* algebra_remain_formula(float* matrix, int x, int y, int row);
-
-
-
+int upper_triangle_matrix(float* matrix1, int row);//转为上三角行列式
+float sum_upper_triangle_matrix(float* matrix, int row);//对上三角行列式求值
+float algebra_remain_formula(const float* matrix, int x, int y, int row);//代数余子式
+float remain_formula(float* matrix, int x, int y, int row);//返回余子式
+float* chaperonage_matrix(float* matrix, int row);//伴随矩阵
+float* division_matrix(float* matrix1, float* matrix2, int row1, int column1);//对矩阵进行相除
 #endif
