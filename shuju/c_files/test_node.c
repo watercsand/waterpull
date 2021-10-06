@@ -136,44 +136,44 @@ void text4()
 	list_print(n1);
 	printf("**************************\n");
 	int result = -1;
-	int del_place = -1;
+	int del_place = -1;	// 测试过小的删除
 	int i = 0;
 
-	printf("del_place=%d\n", del_place);
+	printf("del_place=%d\n", del_place);	
 	n1 = list_delete(n1, del_place, &result);
 	printf("result=%d\n\n", result);
 	list_print(n1);
 	printf("**************************1\n");
 
-	del_place = 0;
-	printf("del_place=%d\n", del_place);
+	del_place = 0;	// 测试开头的删除
+	printf("del_place=%d\n", del_place); 
 	n1 = list_delete(n1, del_place, &result);
 	printf("result=%d\n\n", result);
 	list_print(n1);
 	printf("**************************2\n");
 
-	del_place = 1;
+	del_place = 1;	// 测试开关第二个的删除
 	printf("del_place=%d\n", del_place);
 	n1 = list_delete(n1, del_place, &result);
 	printf("result=%d\n\n", result);
 	list_print(n1);
 	printf("**************************3\n");
 
-	del_place = 5;
+	del_place = 5;	// 测试正常的删除
 	printf("del_place=%d\n", del_place);
 	n1 = list_delete(n1, del_place, &result);
 	printf("result=%d\n\n", result);
 	list_print(n1);
 	printf("**************************4\n");
 
-	del_place = 10;
+	del_place = 10;	// 测试为尾的删除
 	printf("del_place=%d\n", del_place);
 	n1 = list_delete(n1, del_place, &result);
 	printf("result=%d\n\n", result);
 	list_print(n1);
 	printf("**************************5\n");
 
-	del_place = 11;
+	del_place = 11;	// 测试过大的删除
 	printf("del_place=%d\n", del_place);
 	n1 = list_delete(n1, del_place, &result);
 	printf("result=%d\n\n", result);
