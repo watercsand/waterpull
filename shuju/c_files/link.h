@@ -20,4 +20,5 @@ int locate_elem(struct lnode* L, int e);// 在线性表L中查找与给定值e相等的元素，
 int list_len(struct lnode* head);// 计算链表的长度
 struct lnode* list_insert(struct lnode* L, int i, int e);// 在线性表L中插入新元素
 struct lnode* list_delete(struct lnode* L, int i, int* e);// 删除线性表的元素
+void list_del_all(struct lnode* head);// 删除链表的所有元素
 #endif

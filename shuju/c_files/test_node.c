@@ -1,6 +1,8 @@
 #include "link.h"
 #include <stdio.h>
 #include <malloc.h>
+#include <Windows.h>
+#include <stdlib.h>
 
 /*--------------------------------------------------------------------
 Author: watercsand
@@ -46,7 +48,7 @@ void text2()
 	list_print(n1);
 	list_clear(n1);
 	list_print(n1);
-	free(n1);
+	list_del_all(n1);
 	n1 = NULL;
 }
 
@@ -120,8 +122,8 @@ void text3()
 	printf("insert_number=%d\n\n", insert_num);
 	n1 = list_insert(n1, insert_place, insert_num);
 	list_print(n1);
-
-	free(n1);
+	list_del_all(n1);
+	// free(n1);
 	n1 = NULL;
 }
 
@@ -179,12 +181,32 @@ void text4()
 	printf("result=%d\n\n", result);
 	list_print(n1);
 	printf("**************************5\n");
-
-	free(n1);
+	list_del_all(n1);
+	// free(n1);
 	n1 = NULL;
 }
 
-
+void text5()
+{
+	int i = 0xfffff;
+	struct lnode* n1 = NULL;
+	int c = 10;
+	while (i)
+	{
+		n1 = init_list(n1, c);
+		// list_print(n1);
+		list_del_all(n1);
+		printf("%d finish del\n", i);
+		// Sleep(10);
+		if (i % 100 == 0)
+		{
+			system("cls");
+		}
+		i--;
+		n1 = NULL;
+	}
+	Sleep(5000);
+}
 
 
 

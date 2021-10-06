@@ -330,6 +330,30 @@ struct lnode* list_delete(struct lnode* L, int i, int* e)
 	}
 }
 
+// 删除链表的所有元素
+// 第一个参数是链表的首地址
+void list_del_all(struct lnode* head)
+{
+	int len = list_len(head);
+	struct lnode* first = head;
+	struct lnode* next = first->next;
+	int i = 0;
+	
+	while(next != NULL)
+	{
+		// list_print_single(first);
+		// printf("%p\n", first);
+		free(first);
+		first = next;
+		next = first->next;
+	}
+	free(first);
+	// printf("%p\n", first);
+}
+
+
+
+
 
 
 
