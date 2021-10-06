@@ -179,6 +179,9 @@ void text4()
 	printf("result=%d\n\n", result);
 	list_print(n1);
 	printf("**************************5\n");
+
+	free(n1);
+	n1 = NULL;
 }
 
 
